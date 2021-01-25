@@ -61,7 +61,7 @@ nse_fm_dir_name = 'nse-fm'
 def download_main():
     # logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
     print(datetime.datetime.now())
-    for_date_yyyymmdd = datetime.datetime(2021, 1, 1)
+    for_date_yyyymmdd = datetime.datetime(2021, 1, 15)
 
     while for_date_yyyymmdd < datetime.datetime.now():
         print('----------------------------------')
@@ -70,27 +70,27 @@ def download_main():
             for_date_yyyymmdd += datetime.timedelta(days=1)
             continue
         download_cm(for_date_yyyymmdd)
-        download_dm(for_date_yyyymmdd)
+        # download_dm(for_date_yyyymmdd)
         download_fm(for_date_yyyymmdd)
         for_date_yyyymmdd += datetime.timedelta(days=1)
     print(f'COMPLETED')
 
 
-def download_dm(for_date_yyyymmdd):
-    link_url = 'https://www1.nseindia.com/archives/equities/mto/MTO_DDMMYYYY.DAT'
-    file_name = 'MTO_DDMMYYYY.DAT'
-
-    for_year = for_date_yyyymmdd.strftime('%Y')
-    for_month = for_date_yyyymmdd.strftime('%m')
-    for_day = for_date_yyyymmdd.strftime('%d')
-    applicable_url = link_url.replace('YYYY', for_year).replace('MM', for_month).replace('DD', for_day)
-    applicable_name = file_name.replace('YYYY', for_year).replace('MM', for_month).replace('DD', for_day)
-
-    if not file_found(applicable_name, nse_dm_dir_name):
-        download_file(applicable_url, applicable_name, 1024, nse_dm_dir_name)
-    else:
-        print(f'{file_name} | File already downloaded !', applicable_name)
-        # logging.debug('%s | File already downloaded !', applicable_name)
+# def download_dm(for_date_yyyymmdd):
+    # link_url = 'https://www1.nseindia.com/archives/equities/mto/MTO_DDMMYYYY.DAT'
+    # file_name = 'MTO_DDMMYYYY.DAT'
+    #
+    # for_year = for_date_yyyymmdd.strftime('%Y')
+    # for_month = for_date_yyyymmdd.strftime('%m')
+    # for_day = for_date_yyyymmdd.strftime('%d')
+    # applicable_url = link_url.replace('YYYY', for_year).replace('MM', for_month).replace('DD', for_day)
+    # applicable_name = file_name.replace('YYYY', for_year).replace('MM', for_month).replace('DD', for_day)
+    #
+    # if not file_found(applicable_name, nse_dm_dir_name):
+    #     download_file(applicable_url, applicable_name, 1024, nse_dm_dir_name)
+    # else:
+    #     print(f'{applicable_name}        | File already downloaded !')
+    #     # logging.debug('%s | File already downloaded !', applicable_name)
 
 
 def download_cm(for_date_yyyymmdd):
@@ -106,7 +106,7 @@ def download_cm(for_date_yyyymmdd):
     if not file_found(applicable_name, nse_cm_dir_name):
         download_file(applicable_url, applicable_name, 1024, nse_cm_dir_name)
     else:
-        print(f'{file_name} | File already downloaded !', applicable_name)
+        print(f'{applicable_name} | File already downloaded !')
         # logging.debug('%s | File already downloaded !', applicable_name)
         # logging.error('%s raised an error', applicable_url)
 
@@ -124,7 +124,7 @@ def download_fm(for_date_yyyymmdd):
     if not file_found(applicable_name, nse_fm_dir_name):
         download_file(applicable_url, applicable_name, 1024, nse_fm_dir_name)
     else:
-        print(f'{file_name} | File already downloaded !', applicable_name)
+        print(f'{applicable_name} | File already downloaded !')
         # logging.debug('%s | File already downloaded !', applicable_name)
 
 
