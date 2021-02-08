@@ -5,8 +5,13 @@ import logging
 
 import icecream
 
-
 from urllib.request import Request, urlopen
+
+cm_download_disabled = False
+dm_download_disabled = False
+fm_download_disabled = False
+idx_download_disabled = False
+
 
 imp_blog = 'https://mathdatasimplified.com/'
 
@@ -28,40 +33,15 @@ nse_data_dir_path = 'D:/nseEnv-2021/nse-data'
 nse_cm_dir_name = 'nse-cm'
 nse_dm_dir_name = 'nse-dm'
 nse_fm_dir_name = 'nse-fm'
+nse_idx_dir_name = 'nse-idx'
 
 # logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
-
-
-# def download_main_old():
-#     # logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
-#
-#     for year_num in range(2021, 2022):
-#         for month_num in range(1, 13):
-#             for day_num in range(1, 32):
-#                 # calendar.calendar.month_name(month_num)
-#                 date_str_yyyymmdd_template = '{:>4}-{:>2}-{:>2}'
-#                 for_date_str_yyyymmdd = str(year_num) + str(month_num) + str(day_num)
-#                 for_date_str_yyyymmdd = date_str_yyyymmdd_template.format(year_num, month_num, day_num)
-#
-#                 for_date_yyyymmdd = datetime.datetime(year_num, month_num, day_num)
-#                 for_date_str_yyyymmdd = for_date_yyyymmdd.strftime('%y-%m-%d')
-#
-#                 print(f'loop for date: {for_date_yyyymmdd}, week day: {for_date_yyyymmdd.weekday()}')
-#                 is_future_date = for_date_yyyymmdd > datetime.datetime.now()
-#                 if is_future_date or is_week_end(for_date_yyyymmdd):
-#                     continue
-#                 print(f'---------')
-#                 # download_cm(for_date_yyyymmdd)
-#                 # download_dm(for_date_yyyymmdd)
-#                 # download_fm(for_date_yyyymmdd)
-#                 # icecream(for_date_str_yyyymmdd)
-#     print(f'COMPLETED')
 
 
 def download_main():
     # logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
     print(datetime.datetime.now())
-    for_date_yyyymmdd = datetime.datetime(2021, 1, 15)
+    for_date_yyyymmdd = datetime.datetime(2021, 2, 1)
 
     while for_date_yyyymmdd < datetime.datetime.now():
         print('----------------------------------')
@@ -70,61 +50,105 @@ def download_main():
             for_date_yyyymmdd += datetime.timedelta(days=1)
             continue
         download_cm(for_date_yyyymmdd)
-        # download_dm(for_date_yyyymmdd)
+        download_dm(for_date_yyyymmdd)
         download_fm(for_date_yyyymmdd)
+        download_idx(for_date_yyyymmdd)
         for_date_yyyymmdd += datetime.timedelta(days=1)
     print(f'COMPLETED')
 
 
-# def download_dm(for_date_yyyymmdd):
-    # link_url = 'https://www1.nseindia.com/archives/equities/mto/MTO_DDMMYYYY.DAT'
-    # file_name = 'MTO_DDMMYYYY.DAT'
-    #
-    # for_year = for_date_yyyymmdd.strftime('%Y')
-    # for_month = for_date_yyyymmdd.strftime('%m')
-    # for_day = for_date_yyyymmdd.strftime('%d')
-    # applicable_url = link_url.replace('YYYY', for_year).replace('MM', for_month).replace('DD', for_day)
-    # applicable_name = file_name.replace('YYYY', for_year).replace('MM', for_month).replace('DD', for_day)
-    #
-    # if not file_found(applicable_name, nse_dm_dir_name):
-    #     download_file(applicable_url, applicable_name, 1024, nse_dm_dir_name)
-    # else:
-    #     print(f'{applicable_name}        | File already downloaded !')
-    #     # logging.debug('%s | File already downloaded !', applicable_name)
+def download_idx(for_date_yyyymmdd):
+    if idx_download_disabled:
+        print('idx download DISABLED')
+        return
+
+    link_url = 'https://www1.nseindia.com/content/indices/ind_close_all_DDMMYYYY.csv'
+    file_name = 'ind_close_all_DDMMYYYY.csv'
+
+    for_year = for_date_yyyymmdd.strftime('%Y')
+    for_month = str.upper(for_date_yyyymmdd.strftime('%m'))
+    for_day = for_date_yyyymmdd.strftime('%d')
+
+    applicable_url = link_url.replace('YYYY', for_year).replace('MM', for_month).replace('DD', for_day)
+    applicable_name = file_name.replace('YYYY', for_year).replace('MM', for_month).replace('DD', for_day)
+
+    applicable_dir = nse_idx_dir_name
+    if not file_found(applicable_name, applicable_dir):
+        download_file(applicable_name, 1024, applicable_dir, Request(applicable_url))
+    else:
+        print(f'{applicable_name} | File already downloaded !')
+        # logging.debug('%s | File already downloaded !', applicable_name)
+
+
+# this file is not being download in proper format so skipping it until there is a solution
+def download_dm(for_date_yyyymmdd):
+    if dm_download_disabled:
+        print('dm download DISABLED')
+        return
+
+    link_url = 'https://www1.nseindia.com/archives/equities/mto/MTO_DDMMYYYY.DAT'
+    file_name = 'MTO_DDMMYYYY.DAT'
+
+    for_year = for_date_yyyymmdd.strftime('%Y')
+    for_month = for_date_yyyymmdd.strftime('%m')
+    for_day = for_date_yyyymmdd.strftime('%d')
+
+    applicable_url = link_url.replace('YYYY', for_year).replace('MM', for_month).replace('DD', for_day)
+    applicable_name = file_name.replace('YYYY', for_year).replace('MM', for_month).replace('DD', for_day)
+
+    applicable_dir = nse_dm_dir_name
+    if not file_found(applicable_name, applicable_dir):
+        req = Request(applicable_url)
+        download_file(applicable_name, 1024, applicable_dir, req)
+    else:
+        print(f'{applicable_name}           | File already downloaded !')
+        # logging.debug('%s | File already downloaded !', applicable_name)
 
 
 def download_cm(for_date_yyyymmdd):
+    if cm_download_disabled:
+        print('cm download DISABLED')
+        return
+
     link_url = 'https://www1.nseindia.com/content/historical/EQUITIES/YYYY/MMM/cmDDMMMYYYYbhav.csv.zip'
     file_name = 'cmDDMMMYYYYbhav.csv.zip'
 
     for_year = for_date_yyyymmdd.strftime('%Y')
     for_month = str.upper(for_date_yyyymmdd.strftime('%b'))
     for_day = for_date_yyyymmdd.strftime('%d')
+
     applicable_url = link_url.replace('YYYY', for_year).replace('MMM', for_month).replace('DD', for_day)
     applicable_name = file_name.replace('YYYY', for_year).replace('MMM', for_month).replace('DD', for_day)
 
-    if not file_found(applicable_name, nse_cm_dir_name):
-        download_file(applicable_url, applicable_name, 1024, nse_cm_dir_name)
+    applicable_dir = nse_cm_dir_name
+    if not file_found(applicable_name, applicable_dir):
+        download_file(applicable_name, 1024, applicable_dir, Request(applicable_url, headers=header))
     else:
-        print(f'{applicable_name} | File already downloaded !')
+        print(f'{applicable_name}    | File already downloaded !')
         # logging.debug('%s | File already downloaded !', applicable_name)
         # logging.error('%s raised an error', applicable_url)
 
 
 def download_fm(for_date_yyyymmdd):
+    if fm_download_disabled:
+        print('fm download DISABLED')
+        return
+
     link_url = 'https://www1.nseindia.com/content/historical/DERIVATIVES/YYYY/MMM/foDDMMMYYYYbhav.csv.zip'
     file_name = 'foDDMMMYYYYbhav.csv.zip'
 
     for_year = for_date_yyyymmdd.strftime('%Y')
     for_month = str.upper(for_date_yyyymmdd.strftime('%b'))
     for_day = for_date_yyyymmdd.strftime('%d')
+
     applicable_url = link_url.replace('YYYY', for_year).replace('MMM', for_month).replace('DD', for_day)
     applicable_name = file_name.replace('YYYY', for_year).replace('MMM', for_month).replace('DD', for_day)
 
-    if not file_found(applicable_name, nse_fm_dir_name):
-        download_file(applicable_url, applicable_name, 1024, nse_fm_dir_name)
+    applicable_dir = nse_fm_dir_name
+    if not file_found(applicable_name, applicable_dir):
+        download_file( applicable_name, 1024, applicable_dir, Request(applicable_url, headers=header))
     else:
-        print(f'{applicable_name} | File already downloaded !')
+        print(f'{applicable_name}    | File already downloaded !')
         # logging.debug('%s | File already downloaded !', applicable_name)
 
 
@@ -137,10 +161,12 @@ def file_found(file_name, cx_dir_name):
     return False
 
 
-def download_file(linko, file_name, length, cx_dir_name):
+def download_file(file_name, length, cx_dir_name, req):
     file_name_along_with_full_path = get_file_name_along_with_absolute_path(nse_data_dir_path, cx_dir_name, file_name)
     try:
-        req = Request(linko, headers=header)
+        # do not remove these lines
+        # req = Request(linko, headers=header)
+        # req = Request(linko)
         with open(file_name_along_with_full_path, 'wb') as writer:
             request = urlopen(req, timeout=3)
             shutil.copyfileobj(request, writer, length)
