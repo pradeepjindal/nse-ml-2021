@@ -74,7 +74,8 @@ def download_idx(for_date_yyyymmdd):
 
     applicable_dir = nse_idx_dir_name
     if not file_found(applicable_name, applicable_dir):
-        download_file(applicable_name, 1024, applicable_dir, Request(applicable_url))
+        req = Request(applicable_url)
+        download_file(applicable_name, 1024, applicable_dir, req)
     else:
         print(f'{applicable_name} | File already downloaded !')
         # logging.debug('%s | File already downloaded !', applicable_name)
@@ -122,7 +123,8 @@ def download_cm(for_date_yyyymmdd):
 
     applicable_dir = nse_cm_dir_name
     if not file_found(applicable_name, applicable_dir):
-        download_file(applicable_name, 1024, applicable_dir, Request(applicable_url, headers=header))
+        req = Request(applicable_url, headers=header)
+        download_file(applicable_name, 1024, applicable_dir, req)
     else:
         print(f'{applicable_name}    | File already downloaded !')
         # logging.debug('%s | File already downloaded !', applicable_name)
@@ -146,7 +148,8 @@ def download_fm(for_date_yyyymmdd):
 
     applicable_dir = nse_fm_dir_name
     if not file_found(applicable_name, applicable_dir):
-        download_file( applicable_name, 1024, applicable_dir, Request(applicable_url, headers=header))
+        req = Request(applicable_url, headers=header)
+        download_file( applicable_name, 1024, applicable_dir, req)
     else:
         print(f'{applicable_name}    | File already downloaded !')
         # logging.debug('%s | File already downloaded !', applicable_name)
