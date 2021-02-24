@@ -30,10 +30,10 @@ header = {
 day_name_map = {'0': 'monday', '1': 'tuesday', '2': 'wednesday', '3': 'thursday', '4': 'friday', '5': 'SATURDAY', '6': 'SUNDAY', }
 nse_data_dir_path = 'D:/nseEnv_2021/nseData2021.pgsql12'
 nse_data_dir_path = 'D:/nseEnv-2021/nse-data'
-nse_cm_dir_name = 'nse-cm'
-nse_dm_dir_name = 'nse-dm'
-nse_fm_dir_name = 'nse-fm'
-nse_idx_dir_name = 'nse-idx'
+# nse_cm_dir_name = 'nse-cm'
+# nse_dm_dir_name = 'nse-dm'
+# nse_fm_dir_name = 'nse-fm'
+# nse_dx_dir_name = 'nse-dx'
 
 # logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 
@@ -41,7 +41,7 @@ nse_idx_dir_name = 'nse-idx'
 def download_main():
     # logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
     print(datetime.datetime.now())
-    for_date_yyyymmdd = datetime.datetime(2021, 2, 1)
+    for_date_yyyymmdd = datetime.datetime(2021, 2, 20)
 
     while for_date_yyyymmdd < datetime.datetime.now():
         print('----------------------------------')
@@ -52,12 +52,12 @@ def download_main():
         download_cm(for_date_yyyymmdd)
         download_dm(for_date_yyyymmdd)
         download_fm(for_date_yyyymmdd)
-        download_idx(for_date_yyyymmdd)
+        download_nx(for_date_yyyymmdd)
         for_date_yyyymmdd += datetime.timedelta(days=1)
     print(f'COMPLETED')
 
 
-def download_idx(for_date_yyyymmdd):
+def download_nx(for_date_yyyymmdd):
     if idx_download_disabled:
         print('idx download DISABLED')
         return
@@ -72,7 +72,7 @@ def download_idx(for_date_yyyymmdd):
     applicable_url = link_url.replace('YYYY', for_year).replace('MM', for_month).replace('DD', for_day)
     applicable_name = file_name.replace('YYYY', for_year).replace('MM', for_month).replace('DD', for_day)
 
-    applicable_dir = nse_idx_dir_name
+    applicable_dir = 'nse-nx'
     if not file_found(applicable_name, applicable_dir):
         req = Request(applicable_url)
         download_file(applicable_name, 1024, applicable_dir, req)
@@ -97,7 +97,7 @@ def download_dm(for_date_yyyymmdd):
     applicable_url = link_url.replace('YYYY', for_year).replace('MM', for_month).replace('DD', for_day)
     applicable_name = file_name.replace('YYYY', for_year).replace('MM', for_month).replace('DD', for_day)
 
-    applicable_dir = nse_dm_dir_name
+    applicable_dir = 'nse-dm'
     if not file_found(applicable_name, applicable_dir):
         req = Request(applicable_url)
         download_file(applicable_name, 1024, applicable_dir, req)
@@ -121,7 +121,7 @@ def download_cm(for_date_yyyymmdd):
     applicable_url = link_url.replace('YYYY', for_year).replace('MMM', for_month).replace('DD', for_day)
     applicable_name = file_name.replace('YYYY', for_year).replace('MMM', for_month).replace('DD', for_day)
 
-    applicable_dir = nse_cm_dir_name
+    applicable_dir = 'nse-cm'
     if not file_found(applicable_name, applicable_dir):
         req = Request(applicable_url, headers=header)
         download_file(applicable_name, 1024, applicable_dir, req)
@@ -146,7 +146,7 @@ def download_fm(for_date_yyyymmdd):
     applicable_url = link_url.replace('YYYY', for_year).replace('MMM', for_month).replace('DD', for_day)
     applicable_name = file_name.replace('YYYY', for_year).replace('MMM', for_month).replace('DD', for_day)
 
-    applicable_dir = nse_fm_dir_name
+    applicable_dir = 'nse-fm'
     if not file_found(applicable_name, applicable_dir):
         req = Request(applicable_url, headers=header)
         download_file( applicable_name, 1024, applicable_dir, req)

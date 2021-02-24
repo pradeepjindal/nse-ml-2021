@@ -91,16 +91,23 @@ for stock - stock divided by nifty
 first look for trend on week
 then look on day
 
-==================
-pair strategy
-go long in one stock
-go short in another stock
-couple strategy
-go long in one trading account of same stock
-go short in another trading account of same stock
 
 ANCHOR VWAP
 23-mar-2020 - lowest (recovered within two months)
 nifty pe=17.15, pb=2.17 
 07-jul-2021
 nifty pe=41.46, pb=4.23
+=======================
+fundamental, technical, quantitative, hedge
+mf, etf, equity, options, futures
+quarterly, monthly, weekly, daily, hourly
+price action, delivery action
+
+rsi is momentum indicator
+adx is trend indicator
+
+calculate vix for a given stock
+
+
+price consolidation with rich volume - good demand
+price consolidation with poor volume - poor demand
