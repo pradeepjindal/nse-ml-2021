@@ -41,7 +41,7 @@ nse_data_dir_path = 'D:/nseEnv-2021/nse-data'
 def download_main():
     # logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
     print(datetime.datetime.now())
-    for_date_yyyymmdd = datetime.datetime(2021, 2, 20)
+    for_date_yyyymmdd = datetime.datetime(2021, 2, 25)
 
     while for_date_yyyymmdd < datetime.datetime.now():
         print('----------------------------------')
@@ -173,10 +173,11 @@ def download_file(file_name, length, cx_dir_name, req):
         with open(file_name_along_with_full_path, 'wb') as writer:
             request = urlopen(req, timeout=3)
             shutil.copyfileobj(request, writer, length)
+        print('download succeed! - ' + file_name)
     except Exception as e:
-        print('File cannot be downloaded:', e)
+        print('downloaded failed:', e)
     finally:
-        print('File downloaded with success!')
+        print('-----------')
 
 
 def get_file_name_along_with_absolute_path(base_path, dir_name, file_name):

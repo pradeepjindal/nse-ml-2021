@@ -111,3 +111,14 @@ calculate vix for a given stock
 
 price consolidation with rich volume - good demand
 price consolidation with poor volume - poor demand
+
+
+NK-HM
+For Intraday Use ORB,
+For positional use Avwap,
+For Investment use flat price on monthly chart 
+..learn it
+
+jab bhi vwap ke paas mile sell karo index ko 
+even stock buy ka mat socho thakur till trading below avwap
+Kumar.nitish8430@gmail.com

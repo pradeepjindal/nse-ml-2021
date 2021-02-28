@@ -1,0 +1,4 @@
+if price is up and oi is up and close is above atp then operator is bullish
+
+if price is up but oi is dn and close is below atp then operator is bearish
+
