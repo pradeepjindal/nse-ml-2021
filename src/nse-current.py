@@ -3,7 +3,7 @@ import shutil
 import datetime
 import logging
 
-import icecream
+# import icecream
 
 from urllib.request import Request, urlopen
 
@@ -77,8 +77,8 @@ def download_nx(for_date_yyyymmdd):
         req = Request(applicable_url)
         download_file(applicable_name, 1024, applicable_dir, req)
     else:
-        print(f'{applicable_name} | File already downloaded !')
-        # logging.debug('%s | File already downloaded !', applicable_name)
+        print(f'{applicable_name} | already downloaded !')
+        # logging.debug('%s | already downloaded !', applicable_name)
 
 
 # this file is not being download in proper format so skipping it until there is a solution
@@ -102,8 +102,8 @@ def download_dm(for_date_yyyymmdd):
         req = Request(applicable_url)
         download_file(applicable_name, 1024, applicable_dir, req)
     else:
-        print(f'{applicable_name}           | File already downloaded !')
-        # logging.debug('%s | File already downloaded !', applicable_name)
+        print(f'{applicable_name}           | already downloaded !')
+        # logging.debug('%s | already downloaded !', applicable_name)
 
 
 def download_cm(for_date_yyyymmdd):
@@ -126,8 +126,8 @@ def download_cm(for_date_yyyymmdd):
         req = Request(applicable_url, headers=header)
         download_file(applicable_name, 1024, applicable_dir, req)
     else:
-        print(f'{applicable_name}    | File already downloaded !')
-        # logging.debug('%s | File already downloaded !', applicable_name)
+        print(f'{applicable_name}    | already downloaded !')
+        # logging.debug('%s | already downloaded !', applicable_name)
         # logging.error('%s raised an error', applicable_url)
 
 
@@ -151,8 +151,8 @@ def download_fm(for_date_yyyymmdd):
         req = Request(applicable_url, headers=header)
         download_file( applicable_name, 1024, applicable_dir, req)
     else:
-        print(f'{applicable_name}    | File already downloaded !')
-        # logging.debug('%s | File already downloaded !', applicable_name)
+        print(f'{applicable_name}    | already downloaded !')
+        # logging.debug('%s | already downloaded !', applicable_name)
 
 
 def file_found(file_name, cx_dir_name):
