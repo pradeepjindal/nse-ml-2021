@@ -1,0 +1,17 @@
+Kaufman’s Adaptive Moving Average
+-----------------------------------
+
+Developed by Perry Kaufman, Kaufmans Adaptive Moving Average is designed not only to act as a moving average, but also to track the degree of noise in the trend and adjust accordingly. It automatically changes its speed based on market volatility.
+
+The AMA is used as a replacement of ordinary moving averages and when it was presented in 1995, it was superior to previous attempts to create an intelligent moving average because it offered greater user control.
+
+Basically, when the market is trending strongly and there are only minor counter-trend moves (pullbacks), there is very little noise and you would prefer the MA to closely follow the price action, thus you would want it to have a smaller trackback span.
+
+On the other hand, if the market is range-bound and is dominated by bars which are offsetting each other, what you want is a moving average with a longer lookback period that will smooth it out and thus avoid false signals.
+
+What Kaufman did is to tweak the Exponential Moving Average with an algorithm that would adjust the EMAs smoothing constant relative to the ratio of market direction and volatility, thus it is now responsive to trend and volatility. Here is the formula from which the AMA is derived:
+
+AMA = C * [close(t) – AMA(t-1)] + AMA(t-1), where C is the adaptive aspect of the smoothing constant. However, there are a number of calculations before we reach to C but we will not list them here too keep things simpler.
+
+It is more important to realize that Kaufmans Adaptive Moving Average excels thanks to its ability to respond to the market conditions dynamic shifts, which is a major advantage compared to trading strategies based on moving averages with fixed trackback periods. Moreover, apart from using the KAMA as a stand-alone indicator, it can also serve to smooth other indicators.
+
