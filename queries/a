@@ -1,0 +1,18 @@
+select a.symbol ,mina,minb,minc ,maxa,maxb,maxc , round((maxa-mina)/(mina/100),0) d from
+(select symbol, to_char(trade_date,'yyyy-mm') dt, min(close) mina, max(close) maxa
+from nse_cash_market_tab
+where to_char(trade_date,'yyyy-mm') = '2021-03' --symbol = 'AJMERA'
+group by symbol, to_char(trade_date,'yyyy-mm')) a,
+(select symbol, to_char(trade_date,'yyyy-mm') dt, min(close) minb, max(close) maxb
+from nse_cash_market_tab
+where to_char(trade_date,'yyyy-mm') = '2021-03' --symbol = 'AJMERA'
+group by symbol, to_char(trade_date,'yyyy-mm')) b,
+(select symbol, to_char(trade_date,'yyyy-mm') dt, min(close) minc, max(close) maxc
+from nse_cash_market_tab
+where to_char(trade_date,'yyyy-mm') = '2021-03' --symbol = 'AJMERA'
+group by symbol, to_char(trade_date,'yyyy-mm')) c
+where a.symbol = b.symbol and b.symbol = c.symbol
+and (maxa-mina)/(mina/100) > 9
+and (maxb-minb)/(minb/100) > 9
+and (maxc-minc)/(minc/100) > 9
+--order by trade_date
