@@ -41,9 +41,11 @@ nse_data_dir_path = 'D:/nseEnv-2021/nse-data'
 def download_main():
     # logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
     print(datetime.datetime.now())
-    for_date_yyyymmdd = datetime.datetime(2021, 7, 4)
+    for_date_yyyymmdd = datetime.datetime(2021, 7, 15)
 
-    while for_date_yyyymmdd < datetime.datetime.now():
+    upto_date = datetime.datetime.now()
+    upto_date = datetime.datetime.strptime('2021-07-16', '%Y-%m-%d')
+    while for_date_yyyymmdd < upto_date:
         print('----------------------------------')
         print(f'loop for date: {for_date_yyyymmdd.strftime("%Y-%b-%d")}, {day_name_map.get(str(for_date_yyyymmdd.weekday()))}')
         if is_week_end(for_date_yyyymmdd):
