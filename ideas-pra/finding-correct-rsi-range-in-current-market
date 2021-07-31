@@ -1,0 +1,15 @@
+problem:
+rsi over-sold and over-bought ranges keep shifting as per market
+it is different in bull, bearish and sideways markets
+
+query:
+tell me the correct rsi range for present market
+
+solution:
+all average rsi
+fno average rsi
+sector average rsi
+
+benefits:
+to know whether market is in bull mode or bear mode
+the present range of over-sold and over-bought
