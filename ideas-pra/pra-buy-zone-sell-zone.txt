@@ -11,4 +11,4 @@ price wud rise if
     - same volume price up - valid
  - to buy additional volume there has to pay extra price (demand rise up beyond that price level)
     - high volume price up - VALID
-
+(here ideally RSI also should have begin to rise)
