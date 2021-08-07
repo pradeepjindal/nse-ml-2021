@@ -1,0 +1,14 @@
+stock falls - ppl are willing to sell at lower
+stock goes sideline - ppl are selling low, but not beyond a certain level
+accumulation phase - ppl keep selling in low range and buyer keep absorbing it
+ - sooner or later sell volume begin to dry up
+rising phase - to draw volume, one has to offer higher price, hence price begin to rise
+
+
+price wud rise if
+ - to buy same average volume there is no supply on that same price (supply dry up on that price level)
+    - low volume price up - invalid
+    - same volume price up - valid
+ - to buy additional volume there has to pay extra price (demand rise up beyond that price level)
+    - high volume price up - VALID
+

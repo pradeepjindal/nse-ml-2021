@@ -41,10 +41,10 @@ nse_data_dir_path = 'D:/nseEnv-2021/nse-data'
 def download_main():
     # logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
     print(datetime.datetime.now())
-    from_date_yyyymmdd = datetime.datetime(2021, 8, 1)
+    from_date_yyyymmdd = datetime.datetime(2021, 8, 9)
 
     # to_date = datetime.datetime.now()
-    to_date = datetime.datetime.strptime('2021-08-1', '%Y-%m-%d')
+    to_date = datetime.datetime.strptime('2021-08-6', '%Y-%m-%d')
 
     for_date_yyyymmdd = from_date_yyyymmdd
     while for_date_yyyymmdd <= to_date:
