@@ -5,10 +5,11 @@ accumulation phase - ppl keep selling in low range and buyer keep absorbing it
 rising phase - to draw volume, one has to offer higher price, hence price begin to rise
 
 
-price wud rise if
+price would rise if
  - to buy same average volume there is no supply on that same price (supply dry up on that price level)
     - low volume price up - invalid
     - same volume price up - valid
  - to buy additional volume there has to pay extra price (demand rise up beyond that price level)
     - high volume price up - VALID
 (here ideally RSI also should have begin to rise)
+it can be double confirmed by Hakin-Ashi as well
