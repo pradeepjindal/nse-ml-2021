@@ -41,10 +41,10 @@ nse_data_dir_path = 'D:/nseEnv-2021/nse-data'
 def download_main():
     # logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
     print(datetime.datetime.now())
-    from_date_yyyymmdd = datetime.datetime(2021, 8, 20)
+    from_date_yyyymmdd = datetime.datetime(2021, 9, 1)
 
-    # to_date = datetime.datetime.now()
-    to_date = datetime.datetime.strptime('2021-08-20', '%Y-%m-%d')
+    to_date = datetime.datetime.now()
+    # to_date = datetime.datetime.strptime('2021-08-20', '%Y-%m-%d')
 
     for_date_yyyymmdd = from_date_yyyymmdd
     while for_date_yyyymmdd <= to_date:
@@ -187,7 +187,7 @@ def download_file(file_name, length, cx_dir_name, req):
         print('{:30s} | download succeed!'.format(file_name))
     except Exception as e:
         # print(f'{file_name} | downloaded failed:', e)
-        print('{:30s} | download failed!    '.format(file_name), e)
+        print('{:30s} | download FAILED!    '.format(file_name), e)
     finally:
         pass
 
