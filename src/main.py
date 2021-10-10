@@ -7,4 +7,3 @@ def main():
     print("Hello - nse trend discovery using ml")
 
     print("Hello - nse trend discovery using ml")
-
