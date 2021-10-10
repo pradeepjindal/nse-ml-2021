@@ -7,6 +7,10 @@ import logging
 
 from urllib.request import Request, urlopen
 
+print_download_skipped = True
+print_download_success = True
+print_download_failure = True
+
 cm_download_disabled = False
 dm_download_disabled = False
 fm_download_disabled = False
@@ -41,10 +45,10 @@ nse_data_dir_path = 'D:/nseEnv-2021/nse-data'
 def download_main():
     # logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
     print(datetime.datetime.now())
-    from_date_yyyymmdd = datetime.datetime(2021, 9, 1)
+    from_date_yyyymmdd = datetime.datetime(2021, 10, 5)
 
     to_date = datetime.datetime.now()
-    # to_date = datetime.datetime.strptime('2021-08-20', '%Y-%m-%d')
+    # to_date = datetime.datetime.strptime('2021-10-1', '%Y-%m-%d')
 
     for_date_yyyymmdd = from_date_yyyymmdd
     while for_date_yyyymmdd <= to_date:
@@ -84,7 +88,8 @@ def download_nx(for_date_yyyymmdd):
     else:
         abc = '{:10s} {:3d}  {:7.2f}'.format('xxx', 123, 98)
         # print(f'{applicable_name} | already downloaded !')
-        print('{:30s} | already downloaded !'.format(applicable_name))
+        if print_download_skipped:
+            print('{:30s} | already downloaded !'.format(applicable_name))
         # logging.debug('%s | already downloaded !', applicable_name)
 
 
@@ -110,7 +115,8 @@ def download_dm(for_date_yyyymmdd):
         download_file(applicable_name, 1024, applicable_dir, req)
     else:
         # print(f'{applicable_name} | already downloaded !')
-        print('{:30s} | already downloaded !'.format(applicable_name))
+        if print_download_skipped:
+            print('{:30s} | already downloaded !'.format(applicable_name))
         # logging.debug('%s | already downloaded !', applicable_name)
 
 
@@ -135,7 +141,8 @@ def download_cm(for_date_yyyymmdd):
         download_file(applicable_name, 1024, applicable_dir, req)
     else:
         # print(f'{applicable_name}    | already downloaded !')
-        print('{:30s} | already downloaded !'.format(applicable_name))
+        if print_download_skipped:
+            print('{:30s} | already downloaded !'.format(applicable_name))
         # logging.debug('%s | already downloaded !', applicable_name)
         # logging.error('%s raised an error', applicable_url)
 
@@ -161,7 +168,8 @@ def download_fm(for_date_yyyymmdd):
         download_file( applicable_name, 1024, applicable_dir, req)
     else:
         # print(f'{applicable_name}    | already downloaded !')
-        print('{:30s} | already downloaded !'.format(applicable_name))
+        if print_download_skipped:
+            print('{:30s} | already downloaded !'.format(applicable_name))
         # logging.debug('%s | already downloaded !', applicable_name)
 
 
@@ -184,10 +192,12 @@ def download_file(file_name, length, cx_dir_name, req):
             request = urlopen(req, timeout=3)
             shutil.copyfileobj(request, writer, length)
         # print('download succeed! - ' + file_name)
-        print('{:30s} | download succeed!'.format(file_name))
+        if print_download_success:
+            print('{:30s} | download succeed!'.format(file_name))
     except Exception as e:
         # print(f'{file_name} | downloaded failed:', e)
-        print('{:30s} | download FAILED!    '.format(file_name), e)
+        if print_download_failure:
+            print('{:30s} | download FAILED!    '.format(file_name), e)
     finally:
         pass
 
