@@ -19,9 +19,17 @@ idx_download_disabled = False
 
 imp_blog = 'https://mathdatasimplified.com/'
 
+daily_report_down_laod_when_automatic_fails = 'https://www1.nseindia.com/products/content/all_daily_reports.htm'
+oi_limist = 'https://www1.nseindia.com/archives/nsccl/mwpl/nseoi_06122021.zip'
+fo_data_having_lot_size = 'https://www1.nseindia.com/archives/fo/mkt/fo07092021.zip'
+folots = 'https://archives.nseindia.com/content/fo/fo_mktlots_03122021.csv'
+
+bhavcopy = 'https://www.indiainx.com/markets/dailymarketdata.aspx'
+
 link = 'https://www1.nseindia.com/content/historical/EQUITIES/2021/JAN/cm01JAN2021bhav.csv.zip'
 link = 'https://www1.nseindia.com/content/historical/DERIVATIVES/2021/JAN/fo01JAN2021bhav.csv.zip'
 link = 'https://www1.nseindia.com/archives/equities/mto/MTO_01012021.DAT'
+
 header = {
     'Accept-Encoding': 'gzip, deflate, sdch, br',
     'Accept-Language': 'fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4',
@@ -46,7 +54,7 @@ def download_main():
 
     # logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
     print(datetime.datetime.now())
-    from_date_yyyymmdd = datetime.datetime(2021, 10, 5)
+    from_date_yyyymmdd = datetime.datetime(2021, 12, 11)
 
     to_date = datetime.datetime.now()
     # to_date = datetime.datetime.strptime('2021-10-1', '%Y-%m-%d')

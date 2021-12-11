@@ -3,27 +3,45 @@ import xlwings as xw
 import psycopg2
 
 
-def get_max_pain(symbol, lot_size):
+def get_max_pain(symbol, lot_size, trade_date_str, fix_expiry_date_str):
+    eq_sql = """
+        select symbol, trade_Date, close from nse_cash_market_tab 
+        where symbol = 'TATAMOTORS' and trade_Date = to_Date('2011-11-11','yyyy-MM-dd')  
+    """
     call_sql ="""
         select symbol, trade_date, expiry_date, option_type, strike_price strike, close, open_int/2800 oi, change_in_oi/2800 oic
         from nse_option_market_tab 
-        where symbol = 'TATAMOTORS' and option_type = 'CE' and trade_Date = to_Date('2021-10-08','yyyy-MM-dd')  and expiry_Date = to_Date('2021-10-28','yyyy-MM-dd')
+        where symbol = 'TATAMOTORS' and option_type = 'CE' and trade_Date = to_Date('2011-11-11','yyyy-MM-dd')  
+        and feds = '2011-11-25'
         order by strike_price
     """
     putt_sql ="""
         select symbol, trade_date, expiry_date, option_type, strike_price strike, close, open_int/2800 oi, change_in_oi/2800 oic
         from nse_option_market_tab 
-        where symbol = 'TATAMOTORS' and option_type = 'PE' and trade_Date = to_Date('2021-10-08','yyyy-MM-dd')  and expiry_Date = to_Date('2021-10-28','yyyy-MM-dd')
+        where symbol = 'TATAMOTORS' and option_type = 'PE' and trade_Date = to_Date('2011-11-11','yyyy-MM-dd')  
+        and feds = '2011-11-25'
         order by strike_price
     """
-
+    eq_sql = eq_sql.replace('TATAMOTORS', symbol)
     call_sql = call_sql.replace('TATAMOTORS', symbol)
     putt_sql = putt_sql.replace('TATAMOTORS', symbol)
+
     call_sql = call_sql.replace('2800', str(lot_size))
     putt_sql = putt_sql.replace('2800', str(lot_size))
 
-    connection = psycopg2.connect(database="postgres", user="postgres", password="postgres", host="localhost", port=5433)
+    eq_sql = eq_sql.replace('2011-11-11', trade_date_str)
+    call_sql = call_sql.replace('2011-11-11', trade_date_str)
+    putt_sql = putt_sql.replace('2011-11-11', trade_date_str)
+
+    call_sql = call_sql.replace('2011-11-25', fix_expiry_date_str)
+    putt_sql = putt_sql.replace('2011-11-25', fix_expiry_date_str)
+
+    connection = psycopg2.connect(database="postgres", user="postgres", password="postgres", host="localhost", port=5432)
     cursor = connection.cursor()
+
+    cursor.execute(eq_sql)
+    eq_records = cursor.fetchall()
+
     cursor.execute(call_sql)
 
     # print(datetime.datetime.now())
@@ -47,6 +65,10 @@ def get_max_pain(symbol, lot_size):
     # print("Data from Database:- ", records)
     connection.close()
     # ================================================================================================
+    eq_close = 0
+    for each_record in eq_records:
+        eq_close = each_record[2]
+
     strike_map = {}
     strike_array = []
 
@@ -69,11 +91,13 @@ def get_max_pain(symbol, lot_size):
     lot_size = lot_size
     call_strike_to_oi_map = {}
     call_strike_to_close_map = {}
+    ce_total_oi = 0
 
     for each_record in call_records:
         strike = each_record[4]
         oi = each_record[6]
         call_strike_to_oi_map[strike] = oi
+        ce_total_oi = ce_total_oi + oi
         close = each_record[5]
         call_strike_to_close_map[strike] = float(close)
 
@@ -92,15 +116,16 @@ def get_max_pain(symbol, lot_size):
             call_vertical_sum_map[horizontal_strike] = call_vertical_sum_map[horizontal_strike] + calculated_value
 
     # ---------------------------------------------------------------------------------------
-
     lot_size = lot_size
     putt_strike_to_oi_map = {}
     putt_strike_to_close_map = {}
+    pe_total_oi = 0
 
     for each_record in putt_records:
         strike = each_record[4]
         oi = each_record[6]
         putt_strike_to_oi_map[strike] = oi
+        pe_total_oi = pe_total_oi + oi
         close = each_record[5]
         putt_strike_to_close_map[strike] = float(close)
 
@@ -170,14 +195,16 @@ def get_max_pain(symbol, lot_size):
     call_close = 0
     putt_close = 0
     for each_strike in strike_array:
-        if call_max_oi == call_strike_to_oi_map[each_strike]:
+        local_putt_strike_to_oi = putt_strike_to_oi_map[each_strike]
+        if putt_max_oi == local_putt_strike_to_oi:
+            support = each_strike
+            putt_close = putt_strike_to_close_map[each_strike]
+        local_call_strike_to_oi = call_strike_to_oi_map[each_strike]
+        if call_max_oi == local_call_strike_to_oi:
             resistance = each_strike
             call_close = call_strike_to_close_map[each_strike]
-        if putt_max_oi == putt_strike_to_oi_map[each_strike]:
-            support = each_strike
-        putt_close = putt_strike_to_close_map[each_strike]
 
-    return float(max_pain), float(support), putt_close, float(resistance), call_close
+    return float(support), putt_max_oi, pe_total_oi, putt_close, float(max_pain), float(resistance), call_max_oi, ce_total_oi, call_close, eq_close
 
     # =====================================================================
     # wb = xw.Book() # wb = xw.Book(filename) would open an existing file

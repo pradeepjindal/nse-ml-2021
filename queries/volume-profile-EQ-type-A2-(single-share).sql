@@ -21,7 +21,7 @@ FROM
 (
 	select symbol gross_symbol, sum(delivered_qty) del_gross_sum,
 		round(sum(delivered_qty)/100,0) del_gross_sum_one_pct
-	from cfd_data_cd_left_join_f_mv
+	from cfd_data_cd_left_join_f_mv3
 	where trade_date between (select f from t) and (select t from t)
 	group by symbol
 ) del_gross_sum_at_symbol_levels,
@@ -36,17 +36,17 @@ FROM
 		from
 		(
 			select symbol, trade_date, cmatp, delivered_qty
-			from cfd_data_cd_left_join_f_mv
+			from cfd_data_cd_left_join_f_mv3
 			where trade_date between (select f from t) and (select t from t)
 		) all_rows,
 		(
 			select symbol scrip, trade_date td,
 				round(cmatp,0) mtp, round(cmatp/100,0) mtp_one_pct,
 				delivered_qty mdq, round(delivered_qty/100,0) mdq_one_pct
-			from cfd_data_cd_left_join_f_mv
+			from cfd_data_cd_left_join_f_mv3
 			where symbol = (select s from t) and trade_date between (select f from t) and (select t from t)
 				and delivered_qty = (
-					select max(delivered_qty) max_delivered_qty from cfd_data_cd_left_join_f_mv
+					select max(delivered_qty) max_delivered_qty from cfd_data_cd_left_join_f_mv3
 						where symbol = (select s from t) and trade_date between (select f from t) and (select t from t)
 					)
 		) max_del_row_tab
@@ -62,15 +62,15 @@ FROM
 	from
 	(
 		select symbol, trade_date, cmatp
-	 	from cfd_data_cd_left_join_f_mv
+	 	from cfd_data_cd_left_join_f_mv3
 	 	where trade_date between (select f from t) and (select t from t)
 	) all_rows,
 	(
 		select symbol scrip, trade_date td, round(cmatp,0) mtp, delivered_qty mdq
-		from cfd_data_cd_left_join_f_mv
+		from cfd_data_cd_left_join_f_mv3
 		where symbol = (select s from t) and trade_date between (select f from t) and (select t from t)
 			and delivered_qty = (
-				select max(delivered_qty) max_delivered_qty from cfd_data_cd_left_join_f_mv
+				select max(delivered_qty) max_delivered_qty from cfd_data_cd_left_join_f_mv3
 					where symbol = (select s from t) and trade_date between (select f from t) and (select t from t)
 				)
 	) max_del_row_tab

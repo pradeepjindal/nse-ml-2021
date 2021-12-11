@@ -20,3 +20,5 @@ need to experiment with
 
 
 market grows around 12% yearly, make a calc to know if market is ahead of curve or behind
+
+

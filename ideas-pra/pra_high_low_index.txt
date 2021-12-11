@@ -1,3 +1,0 @@
-52 weeks high low index
-==================================================
-it is a meter to detect whether market is going to crash

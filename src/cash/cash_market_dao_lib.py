@@ -5,11 +5,11 @@ def get_close_prices():
     cash_market_sql ="""
         select symbol, trade_date, close
         from nse_cash_market_tab 
-        where trade_Date = to_Date('2021-10-22','yyyy-MM-dd')
+        where trade_Date = to_Date('2021-10-12','yyyy-MM-dd')
         order by symbol
     """
 
-    connection = psycopg2.connect(database="postgres", user="postgres", password="postgres", host="localhost", port=5432)
+    connection = psycopg2.connect(database="postgres", user="postgres", password="postgres", host="localhost", port=5433)
     cursor = connection.cursor()
     cursor.execute(cash_market_sql)
 
