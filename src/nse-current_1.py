@@ -20,7 +20,7 @@ idx_download_disabled = False
 imp_blog = 'https://mathdatasimplified.com/'
 
 daily_report_down_laod_when_automatic_fails = 'https://www1.nseindia.com/products/content/all_daily_reports.htm'
-oi_limist = 'https://www1.nseindia.com/archives/nsccl/mwpl/nseoi_06122021.zip'
+oi_limit = 'https://www1.nseindia.com/archives/nsccl/mwpl/nseoi_06122021.zip'
 fo_data_having_lot_size = 'https://www1.nseindia.com/archives/fo/mkt/fo07092021.zip'
 folots = 'https://archives.nseindia.com/content/fo/fo_mktlots_03122021.csv'
 
