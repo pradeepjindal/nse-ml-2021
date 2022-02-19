@@ -18,6 +18,7 @@ idx_download_disabled = False
 ls_download_disabled = False
 fo_download_disabled = False
 
+crosstab = 'https://www.postgresql.org/docs/current/tablefunc.html'
 
 imp_blog = 'https://mathdatasimplified.com/'
 
@@ -28,7 +29,7 @@ fo_data_having_lot_size = 'https://www1.nseindia.com/archives/fo/mkt/fo07092021.
 
 bhavcopy = 'https://www.indiainx.com/markets/dailymarketdata.aspx'
 
-
+delivery_data_alternate = 'https://archives.nseindia.com/products/content/sec_bhavdata_full_14012022.csv'
 
 folots = 'https://archives.nseindia.com/content/fo/fo_mktlots_03122021.csv'
 link = 'https://www1.nseindia.com/content/historical/EQUITIES/2021/JAN/cm01JAN2021bhav.csv.zip'
@@ -60,7 +61,8 @@ def download_main():
     # logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
     print(datetime.datetime.now())
     # from_date_yyyymmdd = datetime.datetime(2019, 12, 31) mktlots since
-    from_date_yyyymmdd = datetime.datetime(2022, 1, 1)
+    # from_date_yyyymmdd = datetime.datetime(2022, 1, 1)
+    from_date_yyyymmdd = datetime.datetime(2022, 2, 21)
 
     to_date = datetime.datetime.now()
     # to_date = datetime.datetime.strptime('2015-12-31', '%Y-%m-%d')
@@ -79,9 +81,41 @@ def download_main():
         #
         download_mktlots(for_date_yyyymmdd)
         download_fo(for_date_yyyymmdd)
+        download_bhav_data_full(for_date_yyyymmdd)
         for_date_yyyymmdd += datetime.timedelta(days=1)
     print('----------------------------------')
     print(f'COMPLETED')
+
+
+def download_bhav_data_full(for_date_yyyymmdd):
+    sec_bhav_data_full_from_date = datetime.datetime(2019, 9, 30)
+    if for_date_yyyymmdd < sec_bhav_data_full_from_date:
+        print('not available')
+        return
+    # if idx_download_disabled:
+    #     print('idx download DISABLED')
+    #     return
+
+    link_url = 'https://archives.nseindia.com/products/content/sec_bhavdata_full_DDMMYYYY.csv'
+    file_name_template = 'sec_bhavdata_full_DDMMYYYY.csv'
+
+    for_year = for_date_yyyymmdd.strftime('%Y')
+    for_month = str.upper(for_date_yyyymmdd.strftime('%m'))
+    for_day = for_date_yyyymmdd.strftime('%d')
+
+    applicable_url = link_url.replace('YYYY', for_year).replace('MM', for_month).replace('DD', for_day)
+    file_name = file_name_template.replace('YYYY', for_year).replace('MM', for_month).replace('DD', for_day)
+
+    applicable_dir = 'nse-bf'
+    if not file_found(file_name, applicable_dir):
+        req = Request(applicable_url)
+        download_file(file_name, 1024, applicable_dir, req)
+    else:
+        abc = '{:10s} {:3d}  {:7.2f}'.format('xxx', 123, 98)
+        # print(f'{file_name} | already downloaded !')
+        if print_download_skipped:
+            print('{:30s} | already downloaded !'.format(file_name))
+        # logging.debug('%s | already downloaded !', file_name)
 
 
 def download_fo(for_date_yyyymmdd):
@@ -106,7 +140,7 @@ def download_fo(for_date_yyyymmdd):
     file_name = file_name_template.replace('YYYY', for_year).replace('MM', for_month).replace('DD', for_day)
 
     applicable_dir = 'nse-fo'
-    if not file_exist(file_name, applicable_dir):
+    if not file_found(file_name, applicable_dir):
         req = Request(applicable_url)
         download_file(file_name, 1024, applicable_dir, req)
     else:
@@ -139,7 +173,7 @@ def download_mktlots(for_date_yyyymmdd):
     file_name = file_name_template.replace('YYYY', for_year).replace('MM', for_month).replace('DD', for_day)
 
     applicable_dir = 'nse-ls'
-    if not file_exist(file_name, applicable_dir):
+    if not file_present(file_name, applicable_dir):
         req = Request(applicable_url)
         download_file(file_name, 1024, applicable_dir, req)
     else:
@@ -269,7 +303,7 @@ def file_found(file_name, cx_dir_name):
     return False
 
 
-def file_exist(file_name, dir_name):
+def file_present(file_name, dir_name):
     file_name_along_with_full_path = get_file_name_along_with_absolute_path(nse_data_dir_path, dir_name, file_name)
     if os.path.exists(file_name_along_with_full_path):
         return True
@@ -287,11 +321,11 @@ def download_file(file_name, length, cx_dir_name, req):
             shutil.copyfileobj(request, writer, length)
         # print('download succeed! - ' + file_name)
         if print_download_success:
-            print('{:30s} | download succeed!'.format(file_name))
+            print('{:30s} | succeed DOWNLOAD!'.format(file_name))
     except Exception as e:
         # print(f'{file_name} | downloaded failed:', e)
         if print_download_failure:
-            print('{:30s} | download FAILED!    '.format(file_name), e)
+            print('{:30s} | FAILED download!    '.format(file_name), e)
     finally:
         pass
 

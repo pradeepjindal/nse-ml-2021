@@ -1,0 +1,22 @@
+daily cycle
+    it has beginning bid settlement
+    middle day
+    ending settlement
+    a complete cycle with absolute delivery data
+
+monthly cycle
+    it has expiry perspective
+    long build, short build for expiry perspective
+    ends with expiry with absolute position square off
+
+quarterly result cycle
+    it is company result cycle
+    post result day cycle start
+    pre result day cycle ends
+
+    strong company stock price keep soaring post result and making new high
+    struggling company stock soar to max pre-result day and the decline to quarter bottom
+    weak company are candidate to be short on each bad result
+
+
+fii do deal in index heavy weight stocks and through them they play in monthly index expiry

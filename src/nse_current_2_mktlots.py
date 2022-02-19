@@ -62,7 +62,7 @@ def download_main():
     # logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
     print(datetime.datetime.now())
     # from_date_yyyymmdd = datetime.datetime(2019, 12, 31) # mktlots since
-    from_date_yyyymmdd = datetime.datetime(2022, 1, 1)
+    from_date_yyyymmdd = datetime.datetime(2022, 1, 10)
 
     to_date = datetime.datetime.now()
     # to_date = datetime.datetime.strptime('2015-12-31', '%Y-%m-%d')
