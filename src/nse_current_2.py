@@ -62,7 +62,7 @@ def download_main():
     print(datetime.datetime.now())
     # from_date_yyyymmdd = datetime.datetime(2019, 12, 31) mktlots since
     # from_date_yyyymmdd = datetime.datetime(2022, 1, 1)
-    from_date_yyyymmdd = datetime.datetime(2022, 2, 21)
+    from_date_yyyymmdd = datetime.datetime(2022, 3, 21)
 
     to_date = datetime.datetime.now()
     # to_date = datetime.datetime.strptime('2015-12-31', '%Y-%m-%d')

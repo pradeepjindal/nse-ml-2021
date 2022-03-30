@@ -25,7 +25,7 @@ nse_data_dir_path = 'D:/nseEnv-2021/nse-data'
 
 def download_main():
     print(datetime.datetime.now())
-    from_date_yyyymmdd = datetime.datetime(2015, 1, 1)
+    from_date_yyyymmdd = datetime.datetime(2022, 1, 1)
 
     to_date = datetime.datetime.now()
     # to_date = datetime.datetime.strptime('2021-06-30', '%Y-%m-%d')
@@ -158,7 +158,8 @@ def get_final_url_having_full_month_name_and_char_v_is_missing_from_url(for_date
 
 def download_it(final_url, file_name):
     # pages = requests.get('https://www.fpi.nsdl.co.in/web/StaticReports/Fortnightly_Sector_wise_FII_Investment_Data/FIIInvestSector_Feb282021.html')
-    pages = requests.get(final_url)
+    headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36'}
+    pages = requests.get(final_url, headers=headers)
     if pages.status_code != 200:
         print(pages.status_code)
         return pages.status_code
