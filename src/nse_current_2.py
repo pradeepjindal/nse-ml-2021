@@ -36,6 +36,8 @@ link = 'https://www1.nseindia.com/content/historical/EQUITIES/2021/JAN/cm01JAN20
 link = 'https://www1.nseindia.com/content/historical/DERIVATIVES/2021/JAN/fo01JAN2021bhav.csv.zip'
 link = 'https://www1.nseindia.com/archives/equities/mto/MTO_01012021.DAT'
 
+cds_link = 'https://www1.nseindia.com/archives/cd/bhav/CD_Bhavcopy090522.zip'
+
 header = {
     'Accept-Encoding': 'gzip, deflate, sdch, br',
     'Accept-Language': 'fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4',
@@ -62,7 +64,7 @@ def download_main():
     print(datetime.datetime.now())
     # from_date_yyyymmdd = datetime.datetime(2019, 12, 31) mktlots since
     # from_date_yyyymmdd = datetime.datetime(2022, 1, 1)
-    from_date_yyyymmdd = datetime.datetime(2022, 3, 21)
+    from_date_yyyymmdd = datetime.datetime(2022, 5, 9)
 
     to_date = datetime.datetime.now()
     # to_date = datetime.datetime.strptime('2015-12-31', '%Y-%m-%d')
@@ -74,6 +76,7 @@ def download_main():
         if is_week_end(for_date_yyyymmdd):
             for_date_yyyymmdd += datetime.timedelta(days=1)
             continue
+        download_cds(for_date_yyyymmdd)
         download_cm(for_date_yyyymmdd)
         download_dm(for_date_yyyymmdd)
         download_fm(for_date_yyyymmdd)
@@ -82,9 +85,45 @@ def download_main():
         download_mktlots(for_date_yyyymmdd)
         download_fo(for_date_yyyymmdd)
         download_bhav_data_full(for_date_yyyymmdd)
+        #
         for_date_yyyymmdd += datetime.timedelta(days=1)
     print('----------------------------------')
     print(f'COMPLETED')
+
+    download_fo(datetime.datetime(2022, 4, 28))
+    download_fo(datetime.datetime(2022, 5, 2))
+    download_dm(datetime.datetime(2022, 5, 2))
+
+
+def download_cds(for_date_yyyymmdd):
+    # sec_bhav_data_full_from_date = datetime.datetime(2019, 9, 30)
+    # if for_date_yyyymmdd < sec_bhav_data_full_from_date:
+    #     print('not available')
+    #     return
+    # if idx_download_disabled:
+    #     print('idx download DISABLED')
+    #     return
+
+    link_url = 'https://www1.nseindia.com/archives/cd/bhav/CD_BhavcopyDDMMYY.zip'
+    file_name_template = 'CD_BhavcopyDDMMYY.zip'
+
+    for_year = for_date_yyyymmdd.strftime('%Y')
+    for_month = str.upper(for_date_yyyymmdd.strftime('%m'))
+    for_day = for_date_yyyymmdd.strftime('%d')
+
+    applicable_url = link_url.replace('YY', for_year[2:]).replace('MM', for_month).replace('DD', for_day)
+    file_name = file_name_template.replace('YY', for_year[2:]).replace('MM', for_month).replace('DD', for_day)
+
+    applicable_dir = 'nse-cd'
+    if not file_found(file_name, applicable_dir):
+        req = Request(applicable_url)
+        download_file(file_name, 1024, applicable_dir, req)
+    else:
+        abc = '{:10s} {:3d}  {:7.2f}'.format('xxx', 123, 98)
+        # print(f'{file_name} | already downloaded !')
+        if print_download_skipped:
+            print('{:30s} | already downloaded !'.format(file_name))
+        # logging.debug('%s | already downloaded !', file_name)
 
 
 def download_bhav_data_full(for_date_yyyymmdd):
