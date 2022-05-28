@@ -64,7 +64,7 @@ def download_main():
     print(datetime.datetime.now())
     # from_date_yyyymmdd = datetime.datetime(2019, 12, 31) mktlots since
     # from_date_yyyymmdd = datetime.datetime(2022, 1, 1)
-    from_date_yyyymmdd = datetime.datetime(2022, 5, 9)
+    from_date_yyyymmdd = datetime.datetime(2022, 5, 29, 18, 0, 0, 0)
 
     to_date = datetime.datetime.now()
     # to_date = datetime.datetime.strptime('2015-12-31', '%Y-%m-%d')
@@ -75,6 +75,7 @@ def download_main():
         print(f'loop for date: {for_date_yyyymmdd.strftime("%Y-%b-%d")}, {day_name_map.get(str(for_date_yyyymmdd.weekday()))}')
         if is_week_end(for_date_yyyymmdd):
             for_date_yyyymmdd += datetime.timedelta(days=1)
+            print('weekend_______')
             continue
         download_cds(for_date_yyyymmdd)
         download_cm(for_date_yyyymmdd)
@@ -92,7 +93,11 @@ def download_main():
 
     download_fo(datetime.datetime(2022, 4, 28))
     download_fo(datetime.datetime(2022, 5, 2))
+    download_fo(datetime.datetime(2022, 5, 27))
+    #
     download_dm(datetime.datetime(2022, 5, 2))
+    download_dm(datetime.datetime(2022, 5, 24))
+    download_dm(datetime.datetime(2022, 5, 27))
 
 
 def download_cds(for_date_yyyymmdd):
